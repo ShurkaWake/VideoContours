@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using System.Drawing;
 
 using Img = Emgu.CV.Image<Emgu.CV.Structure.Rgb, byte>;
-using Emgu.CV.ML;
 
 namespace ORO_Lb5;
 public class ContourParser
 {
+    const int Border = 96;
+
     int[,] mask;
     bool isReverse;
     Img source;
@@ -30,7 +31,7 @@ public class ContourParser
 
     private double Average(int x, int y)
     {
-        var pixel = source[x, y];
+        var pixel = source[y, x];
         return Math.Sqrt((Math.Pow(pixel.Red, 2) + Math.Pow(pixel.Green, 2) + Math.Pow(pixel.Blue, 2)) / 3);
     }
 
@@ -38,23 +39,23 @@ public class ContourParser
     {
         if (mask is null)
         {
-            for (int i = 0; i < source.Width; i++)
+            Parallel.For(0, source.Width, (i) =>
             {
                 for (int j = 0; j < source.Height; j++)
                 {
                     Sobel(i, j);
                 }
-            }
+            });
         }
         else
         {
-            for (int i = 0; i < source.Width; i++)
+            Parallel.For(0, source.Width, (i) =>
             {
                 for (int j = 0; j < source.Height; j++)
                 {
                     UseMask(i, j);
                 }
-            }
+            });
         }
         
     }
@@ -62,17 +63,14 @@ public class ContourParser
     private byte DoubleToByteBounds(double number)
     {
         byte result = 0;
-        if(number < 0)
+
+        if (number < Border)
         {
             result = 0;
         }
-        else if(number > 255)
-        {
-            result = 255;
-        }
         else
         {
-            result = (byte) number;
+            result = 255;
         }
 
         return result;
@@ -121,7 +119,7 @@ public class ContourParser
             res = DoubleToByteBounds(res);
         }
 
-        result[x, y] = new Gray(res);
+        result[y, x] = new Gray(res);
     }
 
     private void UseMask(int x, int y)
@@ -148,6 +146,6 @@ public class ContourParser
             sum = DoubleToByteBounds(sum);
         }
 
-        result[x, y] = new Gray(sum);
+        result[y, x] = new Gray(sum);
     }
 }

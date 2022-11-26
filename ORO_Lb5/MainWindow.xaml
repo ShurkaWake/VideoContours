@@ -5,8 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ORO_Lb5"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="818" Width="1100" Background="#FF6A6A6A">
     <Grid>
+        <Image x:Name="Video" HorizontalAlignment="Left" Height="300" Margin="50,50,0,0" VerticalAlignment="Top" Width="300" Stretch="Fill"/>
+        <Image x:Name="CurrentFrame" Height="300" Width="300" Margin="400,50,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="Fill"/>
+        <Image x:Name="ContourG" Height="300" Width="300" Margin="50,400,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="Fill"/>
+        <Image x:Name="ContourM" Height="300" Width="300" Margin="400,400,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="Fill"/>
+        <Image x:Name="ContourS" Height="300" Width="300" Margin="750,400,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="Fill"/>
+        <Button x:Name="StartButton" Content="Запуск" HorizontalAlignment="Left" Margin="800,150,0,0" VerticalAlignment="Top" Width="200" Height="100" FontSize="48" Background="#FF59D1C8" Click="Button_Click"/>
 
     </Grid>
 </Window>
