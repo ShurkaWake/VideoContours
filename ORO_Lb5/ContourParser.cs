@@ -23,7 +23,6 @@ public class ContourParser
         this.isReverse = isReverse;
         this.mask = mask;
         this.source = source.Clone() as Img;
-        source = source.SmoothGaussian(11);
 
         result = new Image<Gray, byte>(this.source.Width, this.source.Height);
         Parse();
