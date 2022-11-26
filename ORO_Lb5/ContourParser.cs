@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using System.Drawing;
 
 using Img = Emgu.CV.Image<Emgu.CV.Structure.Rgb, byte>;
+using Emgu.CV.ML;
 
-namespace ORO_Lb3;
+namespace ORO_Lb5;
 public class ContourParser
 {
     int[,] mask;
@@ -15,12 +16,14 @@ public class ContourParser
     Img source;
     Image<Gray, byte> result;
 
+    public Image<Gray, byte> Result { get => result;}
+
     public ContourParser(Img source, bool isReverse, int[,] mask = null)
     {
         this.isReverse = isReverse;
         this.mask = mask;
         this.source = source.Clone() as Img;
-        source.SmoothGaussian(3);
+        source = source.SmoothGaussian(11);
 
         result = new Image<Gray, byte>(this.source.Width, this.source.Height);
         Parse();
@@ -109,7 +112,17 @@ public class ContourParser
         }
 
         double res = Math.Sqrt(Math.Pow(Gx, 2) + Math.Pow(Gy, 2));
-        result[x, y] = new Gray(DoubleToByteBounds(res));
+
+        if (isReverse)
+        {
+            res = Math.Abs(DoubleToByteBounds(res) - 255);
+        }
+        else
+        {
+            res = DoubleToByteBounds(res);
+        }
+
+        result[x, y] = new Gray(res);
     }
 
     private void UseMask(int x, int y)
@@ -127,6 +140,15 @@ public class ContourParser
             }
         }
 
-        result[x, y] = new Gray(DoubleToByteBounds(sum));
+        if (isReverse)
+        {
+            sum = Math.Abs(DoubleToByteBounds(sum) - 255);
+        }
+        else
+        {
+            sum = DoubleToByteBounds(sum);
+        }
+
+        result[x, y] = new Gray(sum);
     }
 }
