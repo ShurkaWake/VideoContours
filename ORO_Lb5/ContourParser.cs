@@ -64,13 +64,17 @@ public class ContourParser
     {
         byte result = 0;
 
-        if (number < Border)
+        if (number < 0)
         {
             result = 0;
         }
-        else
+        else if (number > 255)
         {
             result = 255;
+        }
+        else
+        {
+            result = (byte) number;
         }
 
         return result;

@@ -29,7 +29,7 @@ namespace ORO_Lb5
             @"C:\Users\Sasha\Desktop\ОРО_Лр_5_видео\ДТП Харьков_11.avi",
             @"C:\Users\Sasha\Desktop\ОРО_Лр_5_видео\Идущие_люди_1.avi"
         };
-        readonly string source = sources[0];
+        readonly string source = sources[2];
         bool isInverted = true;
 
         int[,] gMatrix = new int[,]
